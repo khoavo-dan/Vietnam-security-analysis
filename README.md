@@ -2,10 +2,12 @@
 
 This project is my attempt to analysis listed Vietnamese companies using financial models
 The current version is valuate stock's earning potential in 3 main ways:
-net-net working capital,
-dividend discount model
-and discounted cashflow.
-Besides, some others function is default risk assessment, hints for in-depth analysis.
+
+- net-net working capital,
+- dividend discount model
+- and discounted cashflow.
+
+  Besides, some others function is default risk assessment, hints for in-depth analysis.
 
 # II. Use-manual:
 
