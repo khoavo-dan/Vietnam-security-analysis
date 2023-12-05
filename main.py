@@ -30,15 +30,18 @@ r_e = 0.11
 g = {ticker: (1-d[ticker]/eps[ticker])*roe[ticker] for ticker in tickers }
 # dividend_discount = {ticker: d[ticker]/(r_e-g[ticker]) for ticker in tickers}
 
+end_str = "\n--------------------------------------------------------------\n"
+sep_str ="\t"
+
 for ticker in tickers:
     print(f'{ticker}')
-    print(f'    Current price: {price[ticker]:,.2f}')
-    print(f'    Net curent asset value per share (ncav): {ncav[ticker][0]:,.2f}')
-    # print(f'    Dividend discount: {dividend_discount[ticker]:,.2f}')
+    print(f'{sep_str}Current price:                                {price[ticker]:>10,.2f}')
+    print(f'{sep_str}Net curent asset value per share (ncav):      {ncav[ticker][0]:>10,.2f}')
+    # print(f'{sep_str}Dividend discount: {sep_str}{dividend_discount[ticker]:>10,.2f}')
 
     if price[ticker]!=0:
-        print(f'    Net-net working capital per share (nnwc): {ncav[ticker][1]:,.2f}        P/L margin: {(ncav[ticker][1]/price[ticker]-1)*100:.2f}%')
-        print(f'    Discounted cash flow in the next 10 year: {dcf[ticker]:,.2f}        P/L margin: {(dcf[ticker]/price[ticker]-1)*100:.2f}%')
+        print(f'{sep_str}Net-net working capital per share (nnwc):     {ncav[ticker][1]:>10,.2f}        P/L margin: {(ncav[ticker][1]/price[ticker]-1)*100:>10,.2f}%')
+        print(f'{sep_str}Discounted cash flow in the next 10 year:     {dcf[ticker]:>10,.2f}        P/L margin: {(dcf[ticker]/price[ticker]-1)*100:>10,.2f}%', end=end_str)
 
 # Fetch the financial statements
 # for frequency in frequencies:
