@@ -1,6 +1,6 @@
 # I. About this app:
 
-This project is my attempt to analysis listed Vietnamese companies using available API and simple financial models.
+This project is my attempt to analysis listed companies trading on Vietnamese stock markets (HOSE, HNX and UPCOM) using data from available APIs and simple financial models.
 The current version is valuate stock's earning potential in 3 main ways:
 
 - net-net working capital,
@@ -19,11 +19,16 @@ Additionally, the app offers default risk assessment and hints for in-depth anal
 2. Running the App:
 
 - To run the app in the terminal, navigate to the app directory, then execute:
-  py/py3 main.py
+  py main.py
+  ![Alt text](image.png)
 
 3. Input Instructions:
 
-- Input the desired ticker, then press enter, then type another if needed, press 'q' when you want to end the input.
+- Input the desired ticker, then press enter,
+  ![Alt text](image-1.png)
+
+then type another if needed, press 'q' when you want to end the input.
+![Alt text](image-2.png)
 
 # Caution!
 
