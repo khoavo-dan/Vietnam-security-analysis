@@ -9,7 +9,7 @@ The current version is valuate stock's earning potential in 3 main ways:
 
   Besides, some others function is default risk assessment, hints for in-depth analysis.
 
-# II. Use-manual:
+# II. User manuals:
 
 1. Create environment with all packages using:
    !conda env create --file requirements.txt
