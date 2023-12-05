@@ -27,8 +27,11 @@ Additionally, the app offers default risk assessment and hints for in-depth anal
 - Input the desired ticker, then press enter,
   ![Alt text](image-1.png)
 
-then type another if needed, press 'q' when you want to end the input.
-![Alt text](image-2.png)
+  then type another if needed, press 'q' when you want to end the input.
+  ![Alt text](image-2.png)
+
+  Result:
+  ![Alt text](image-3.png)
 
 # Caution!
 
