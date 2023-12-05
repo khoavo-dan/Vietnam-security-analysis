@@ -35,7 +35,7 @@ Additionally, the app offers default risk assessment and hints for in-depth anal
 
 # Caution!
 
-This product is a work-in-progress and might reflect personal views and my ongoing financial learning path.
+This product is a work-in-progress and might strongly affected by personal views and my ongoing financial learning path.
 
 # About me:
 
