@@ -9,7 +9,7 @@ The current version is valuate stock's earning potential in 3 main ways:
 
 Additionally, the app offers default risk assessment and hints for in-depth analysis.
 
-# II. Use-manual:
+# II. User manuals:
 
 1. Environment Setup:
 
