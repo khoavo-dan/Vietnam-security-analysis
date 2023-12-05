@@ -1,25 +1,33 @@
 # I. About this app:
 
-This project is my attempt to analysis listed Vietnamese companies using financial models
+This project is my attempt to analysis listed Vietnamese companies using available API and simple financial models.
 The current version is valuate stock's earning potential in 3 main ways:
 
 - net-net working capital,
 - dividend discount model
 - and discounted cashflow.
 
-  Besides, some others function is default risk assessment, hints for in-depth analysis.
+Additionally, the app offers default risk assessment and hints for in-depth analysis.
 
 # II. Use-manual:
 
-1. Create environment with all packages using:
-   !conda env create --file requirements.txt
-2. To run the app in the terminal, navigate to the app directory, then:
-   py/py3 main.py
-3. Input the desired ticker, then press enter, then type another if needed, press 'q' when you want to end the input.
+1. Environment Setup:
+
+- Create an environment with all required packages using the command:
+  !conda env create --file requirements.txt
+
+2. Running the App:
+
+- To run the app in the terminal, navigate to the app directory, then execute:
+  py/py3 main.py
+
+3. Input Instructions:
+
+- Input the desired ticker, then press enter, then type another if needed, press 'q' when you want to end the input.
 
 # Caution!
 
-The product is an work-in-progress and strongly affected by personal view and my finance learning path.
+This product is a work-in-progress and might reflect personal views and my ongoing financial learning path.
 
 # About me:
 
