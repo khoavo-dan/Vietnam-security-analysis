@@ -18,17 +18,25 @@ The current version evaluates the stock's earning potential in 3 main ways:
 2. Running the App:
 
 - To run the app in the terminal, navigate to the app directory, then execute:
-  py main.py
-  ![image info](images\image.png)
+py main.py
+  <p>
+      <img src="images\image.png" />
+  </p>
 
 3. Input Instructions:
 
 - Input the desired ticker, then press enter,
-  ![image info](images\image-1.png)
-  then type another if needed, and press 'q' when you want to end the input.
-  ![image info](images\image-2.png)
-  Result:
-  ![image info](images\image-3.png)
+  <p>
+    <img src="images\image-1.png" />
+  </p> 
+    then type another if needed, and press 'q' when you want to end the input.
+  <p>
+    <img src="images\image-2.png" />
+  </p>  
+    Result:
+  <p>
+    <img src="images\image-3.png" />
+  </p>
 
 # Caution!
 
