@@ -1,13 +1,12 @@
 # I. About this app:
 
-This project is my attempt to analysis listed companies trading on Vietnamese stock markets (HOSE, HNX and UPCOM) using data from available APIs and simple financial models.
-The current version is valuate stock's earning potential in 3 main ways:
+This project is my attempt to analyze listed companies trading on Vietnamese stock markets (HOSE, HNX, and UPCOM) using data from available APIs and simple financial models.
+The current version evaluates the stock's earning potential in 3 main ways:
 
 - net-net working capital,
 - dividend discount model
-- and discounted cashflow.
-
-Additionally, the app offers default risk assessment and hints for in-depth analysis.
+- and discounted cash flow.
+  Additionally, the app offers default risk assessment and hints for in-depth analysis.
 
 # II. User manuals:
 
@@ -20,26 +19,26 @@ Additionally, the app offers default risk assessment and hints for in-depth anal
 
 - To run the app in the terminal, navigate to the app directory, then execute:
   py main.py
-  ![Alt text](image.png)
+  ![Alt text](images\image.png)
 
 3. Input Instructions:
 
 - Input the desired ticker, then press enter,
-  ![Alt text](image-1.png)
-
-  then type another if needed, press 'q' when you want to end the input.
-  ![Alt text](image-2.png)
-
+  ![Alt text](images\image-1.png)
+  then type another if needed, and press 'q' when you want to end the input.
+  ![Alt text](images\image-2.png)
   Result:
-  ![Alt text](image-3.png)
+  ![Alt text](images\image-3.png)
 
 # Caution!
 
-This product is a work-in-progress and might strongly affected by personal views and my ongoing financial learning path.
+This product is a work in progress and might be strongly affected by personal views and my vague understanding of finance. Thus, there are MANY underlying assumptions as responses to the uncertainty.
+I built this for my private use in the screening step rather than an ALL-IN-ONE tool that can provide some kind of magical number.
+USE AS YOUR OWN RISK !!!
 
 # About me:
 
-if you have any ideas or bugs to report, reaching out to me via:
+if you have any ideas or bugs to report, reach out to me via:
 
 <div id="badges" align="center">
   <a href="https://www.linkedin.com/in/dang-khoa-vo">
