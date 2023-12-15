@@ -3,7 +3,7 @@ import pandas as pd
 from io import BytesIO
 from src import translator as trans
 from src import local_storing
-from bs4 import BeautifulSoup
+# from bs4 import BeautifulSoup
 import random
 import uuid
 import concurrent.futures
@@ -104,7 +104,7 @@ def fetch_financial_statement(url, key):
         return df
     except Exception as e:
         print(f'Error occurred while downloading {key}: {e}')
-    time.sleep(7)
+    # time.sleep(7)
 
 # OPTION 1
 def fetch_batch(tickers, reports, frequency, save_file=False):
@@ -121,10 +121,13 @@ def fetch_batch(tickers, reports, frequency, save_file=False):
     """
     current_results = {}
     urls, keys = url_prepare(tickers, reports, frequency)
+    total_tasks = len(urls)  # Total number of tasks to complete
+
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
         futures_map = {executor.submit(
             fetch_financial_statement, url, key): key for url, key in zip(urls, keys)}
+
 
         for future in concurrent.futures.as_completed(futures_map):
             key = futures_map[future]

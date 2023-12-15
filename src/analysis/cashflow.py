@@ -22,14 +22,26 @@ def growth_rate(metric, number_of_years=5):
     """
     Growth rate
     """
-    return (metric[-1]/metric[-number_of_years])**(1/(number_of_years-1))-1
+
+    current_year = metric[-1]
+    past_year = metric[-number_of_years]
+    # print(f'current year {current_year}\n past year {past_year}')
+    if current_year*past_year>0:
+        growth_rate = (current_year/past_year)**(1/(number_of_years-1))-1
+    else:
+        growth_rate = 0
+    # print(f'growth rate {growth_rate}')
+    return growth_rate
 
 def discounted_cash_flow(cash_flow, growth_rate, discount_rate, share_outstanding):
     """
     Discounted cash flow
     """
+    # if growth_rate > discount_rate:
+    #     growth_rate = discount_rate
     discounted_cash_flow = [cash_flow *((1 + growth_rate) ** year)/ ((1 + discount_rate) ** year) for year, cash_flow in enumerate(cash_flow)]
     dcf = np.sum(discounted_cash_flow)/share_outstanding
+    # print(cash_flow, growth_rate, discount_rate, share_outstanding)
     return dcf
 
 def fcff(report_data, ticker, share_outstanding, price, tax_rate=0.2):
@@ -78,48 +90,19 @@ def fcff(report_data, ticker, share_outstanding, price, tax_rate=0.2):
     )
 
     # Assumption: Cash flow is constant for 10 years
-    cash_flows = np.ones(10) * fcff[-1]
+    cash_flows = np.ones(10) * np.average(fcff[-3:])
 
     # Calculate discount rate using the Capital Asset Pricing Model (CAPM)
     discount_rate = capm(Rf=0.0294, Rm=0.1842, beta=1)
 
-    # Calculate growth rates for different periods
-    growth_rate_5YEARS = growth_rate(metric=fcff, number_of_years=5)
-    growth_rate_5YEARS_revenue = growth_rate(metric=revenue, number_of_years=5)
-    growth_rate_10YEARS = growth_rate(metric=fcff, number_of_years=10)
-
     # Determine the minimum growth rate
     growth = min(
-        growth_rate_5YEARS,
-        growth_rate_5YEARS_revenue,
-        growth_rate_10YEARS
+        growth_rate(metric=fcff, number_of_years=5),
+        growth_rate(metric=revenue, number_of_years=5),
+        growth_rate(metric=fcff, number_of_years=8)
     )
 
     # Calculate discounted cash flow (dcf)
     dcf = discounted_cash_flow(cash_flows, growth, discount_rate, share_outstanding[ticker])
 
     return dcf
-    # best_growth_rate = max(growth_rate_5YEARS, growth_rate_10YEARS)/2
-    # worst_growth_rate = min(growth_rate_5YEARS, growth_rate_10YEARS)
-    # dcf_worst = discounted_cash_flow(cash_flows, worst_growth_rate, discount_rate, share_outstanding[ticker])
-    # dcf_best = discounted_cash_flow(cash_flows, best_growth_rate, discount_rate, share_outstanding[ticker])
-
-    # if price != 0:
-    #     print(f'    Discounted cash flow in the next 10 year (low scenario): {dcf_worst:,.2f}        P/L margin: {(dcf_worst/price[ticker]-1)*100:,.2f}%')
-    #     print(f'    Discounted cash flow in the next 10 year (high scenario): {dcf_best:,.2f}        P/L margin: {(dcf_best/price[ticker]-1)*100:,.2f}%')
-    # else:
-    #     print (f'    Number_of_shares {number_of_shares[ticker]:,.2f}')
-    #     print (f'    Discount_rate {discount_rate*100:,.2f}%')
-    #     print(fcff[-1]/number_of_shares[ticker])
-    #     print(fcff[-5])
-    #     print (f'    Growth_rate {best_growth_rate*100:,.2f}%')
-    #     print(f'    Free cash flow to firm (FCFF): {fcff[-1]:,.2f}')
-    #     print(f'    FCFF per share: {fcff[-1]/number_of_shares[ticker]:,.2f}')
-    #     print(f'    Discounted cash flow in the next 10 year (low scenario): {dcf_worst:,.2f}')
-    #     print(f'    Discounted cash flow in the next 10 year (high scenario): {dcf_best:,.2f}')
-
-    # cache = {}
-    # for i in ['incomestatement', 'cashflow']:
-    #     for j in report_data[f'{ticker}_{i}'].index:
-    #         cache[str(j)] = np.array(report_data[f'{ticker}_{i}'].loc[j])
-
