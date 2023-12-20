@@ -24,15 +24,15 @@ def share_outstanding(report_data, ticker):
 
 def eps(report_data, ticker):
     basic_earnings_per_share = report_data[f'{ticker}_incomestatement'].loc['basic_earnings_per_share']
-    return np.mean(basic_earnings_per_share[-3:])
+    return np.mean(basic_earnings_per_share[-1:])
 
 def dividend(symbol):
     data = requests.get('https://apipubaws.tcbs.com.vn/tcanalysis/v1/company/{}/dividend-payment-histories?page=0&size=20'.format(symbol)).json()
     df = json_normalize(data['listDividendPaymentHis']).drop(columns=['no', 'ticker'])
     dividend_yield = np.array(df['cashDividendPercentage'])
-    d_yield = np.mean(dividend_yield[-3:])
+    d_yield = np.mean(dividend_yield[-1:])
     # average_yield = np.mean(dividend_yield[-3:])
-    d = dividend_yield[-1]*10000
+    # d = dividend_yield[-1]*10000
     # d = min(average_yield, previous_yield)
     return d_yield
 

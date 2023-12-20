@@ -64,20 +64,25 @@ def fcff(report_data, ticker, share_outstanding, price, tax_rate=0.2):
     provision_expenses = report_data[f'{ticker}_cashflow'].loc['provision_expenses']
     cash_paid_for_purchase_of_fixed_assets_and_other_long_term_assets = report_data[f'{ticker}_cashflow'].loc['cash_paid_for_purchase_of_fixed_assets_and_other_long_term_assets']
     cash_received_from_disposal_of_fixed_assets = report_data[f'{ticker}_cashflow'].loc['cash_received_from_disposal_of_fixed_assets']
-    increase_decrease_in_accounts_receivable = report_data[f'{ticker}_cashflow'].loc['increase_decrease_in_accounts_receivable']
-    increase_decrease_in_inventory = report_data[f'{ticker}_cashflow'].loc['increase_decrease_in_inventory']
-    increase_decrease_in_accounts_payable = report_data[f'{ticker}_cashflow'].loc['increase_decrease_in_accounts_payable']
-    increase_decrease_in_prepaid_expenses = report_data[f'{ticker}_cashflow'].loc['increase_decrease_in_prepaid_expenses']
+    change_in_accounts_receivable = report_data[f'{ticker}_cashflow'].loc['increase_decrease_in_accounts_receivable']
+    change_in_inventory = report_data[f'{ticker}_cashflow'].loc['increase_decrease_in_inventory']
+    change_in_accounts_payable = report_data[f'{ticker}_cashflow'].loc['increase_decrease_in_accounts_payable']
+    change_in_prepaid_expenses = report_data[f'{ticker}_cashflow'].loc['increase_decrease_in_prepaid_expenses']
     interest_expense = report_data[f'{ticker}_incomestatement'].loc['interest_expense']
     revenue = report_data[f'{ticker}_incomestatement'].loc['revenue']
     net_profit = report_data[f'{ticker}_incomestatement'].loc['profit_attributable_to_shareholders_of_the_parent_company']
 
     non_cash_charge = depreciation + provision_expenses
     FCInv = cash_paid_for_purchase_of_fixed_assets_and_other_long_term_assets + cash_received_from_disposal_of_fixed_assets
-    WCInv = increase_decrease_in_accounts_receivable\
-          + increase_decrease_in_inventory\
-          + increase_decrease_in_accounts_payable\
-          + increase_decrease_in_prepaid_expenses
+    WCInv = change_in_accounts_receivable\
+          + change_in_inventory\
+          + change_in_accounts_payable\
+          + change_in_prepaid_expenses
+
+    # print(net_profit)
+    # print(non_cash_charge)
+    # print(FCInv)
+    # print(WCInv)
 
     # # Calculate debt ratio
     # total_liabilities = liabilities
@@ -86,8 +91,9 @@ def fcff(report_data, ticker, share_outstanding, price, tax_rate=0.2):
 
     # Calculate fcff (cash flow)
     fcff = np.array(
-        net_profit - interest_expense * (1 - tax_rate) + FCInv + WCInv
+        net_profit + non_cash_charge - interest_expense * (1 - tax_rate) + FCInv + WCInv
     )
+    # print(fcff)
 
     # Assumption: Cash flow is constant for 10 years
     cash_flows = np.ones(10) * np.average(fcff[-3:])
@@ -99,7 +105,7 @@ def fcff(report_data, ticker, share_outstanding, price, tax_rate=0.2):
     growth = min(
         growth_rate(metric=fcff, number_of_years=5),
         growth_rate(metric=revenue, number_of_years=5),
-        growth_rate(metric=fcff, number_of_years=8)
+        growth_rate(metric=fcff, number_of_years=3)
     )
 
     # Calculate discounted cash flow (dcf)
