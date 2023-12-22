@@ -1,8 +1,9 @@
 import pandas as pd
 import numpy as np
+from src.analysis.basis import dividend
 # from src.analysis.cost_of_capital.capm import capm
 
-def capm(Rf=0.294, Rm=0.979, beta=1):
+def capm(Rf=0.0294, Rm=0.0979, beta=1.35):
     """
     Capital Asset Pricing Model
     r R e F = + β − i M [E(R ) RF ]
@@ -14,7 +15,7 @@ def capm(Rf=0.294, Rm=0.979, beta=1):
         RF = Risk‐free rate.
         r_e = Expected return on stock (cost of equity).
     """
-    r_e = (Rf+beta*(Rm-Rf))
+    r_e = Rf+beta*(Rm-Rf)
     return r_e
 
 
@@ -57,9 +58,12 @@ def fcff(report_data, ticker, share_outstanding, price, tax_rate=0.2):
     FCInv = Capital expenditures (fixed capital, such as equipment)
     WCInv = Working capital expenditures
     """
-    # share_outstanding = share_outstanding[ticker]
-    # price = price[ticker]
-    # total_liabilities = report_data[f'{ticker}_balancesheet'].loc['total_liabilities']
+
+    debt = report_data[f'{ticker}_balancesheet'].loc['short-term_borrowings']\
+            + report_data[f'{ticker}_balancesheet'].loc['long-term_borrowings']\
+            + report_data[f'{ticker}_balancesheet'].loc['preferred_stock']
+    total_assets = report_data[f'{ticker}_balancesheet'].loc['total_assets']
+    interest_expense = report_data[f'{ticker}_cashflow'].loc['interest_expense']
     depreciation = report_data[f'{ticker}_cashflow'].loc['depreciation']
     provision_expenses = report_data[f'{ticker}_cashflow'].loc['provision_expenses']
     cash_paid_for_purchase_of_fixed_assets_and_other_long_term_assets = report_data[f'{ticker}_cashflow'].loc['cash_paid_for_purchase_of_fixed_assets_and_other_long_term_assets']
@@ -68,9 +72,19 @@ def fcff(report_data, ticker, share_outstanding, price, tax_rate=0.2):
     change_in_inventory = report_data[f'{ticker}_cashflow'].loc['increase_decrease_in_inventory']
     change_in_accounts_payable = report_data[f'{ticker}_cashflow'].loc['increase_decrease_in_accounts_payable']
     change_in_prepaid_expenses = report_data[f'{ticker}_cashflow'].loc['increase_decrease_in_prepaid_expenses']
-    interest_expense = report_data[f'{ticker}_incomestatement'].loc['interest_expense']
     revenue = report_data[f'{ticker}_incomestatement'].loc['revenue']
     net_profit = report_data[f'{ticker}_incomestatement'].loc['profit_attributable_to_shareholders_of_the_parent_company']
+
+    w_d = (debt / (debt + total_assets))[-1]                                      # Calculate debt ratio
+    if w_d != 0:
+        r_d = np.mean(interest_expense[-3:])/np.mean(debt[-3:])  
+    else:
+        r_d = 0
+    r_e = capm(Rf=0.0294, Rm=0.0979, beta=1)                                # Calculate discount rate using the Capital Asset Pricing Model (CAPM)
+    w_e = 1 - w_d
+    t = 0.2                                                                 # tax rate
+    discount_rate = w_d*r_d*(1-t) + w_e*r_e                                 # Weighted average cost of capital
+    print(f' r_d: {r_d*100:.2f}\n r_e: {r_e*100:.2f}\n w_d: {w_d*100:.2f}\n w_e: {w_e*100:.2f} \n Discount rate: {discount_rate*100:.2f}')
 
     non_cash_charge = depreciation + provision_expenses
     FCInv = cash_paid_for_purchase_of_fixed_assets_and_other_long_term_assets + cash_received_from_disposal_of_fixed_assets
@@ -84,11 +98,6 @@ def fcff(report_data, ticker, share_outstanding, price, tax_rate=0.2):
     # print(FCInv)
     # print(WCInv)
 
-    # # Calculate debt ratio
-    # total_liabilities = liabilities
-    # total_assets = total_assets
-    # debt_ratio = total_liabilities / total_assets
-
     # Calculate fcff (cash flow)
     fcff = np.array(
         net_profit + non_cash_charge - interest_expense * (1 - tax_rate) + FCInv + WCInv
@@ -98,8 +107,6 @@ def fcff(report_data, ticker, share_outstanding, price, tax_rate=0.2):
     # Assumption: Cash flow is constant for 10 years
     cash_flows = np.ones(10) * np.average(fcff[-3:])
 
-    # Calculate discount rate using the Capital Asset Pricing Model (CAPM)
-    discount_rate = capm(Rf=0.0294, Rm=0.1842, beta=1)
 
     # Determine the minimum growth rate
     growth = min(
