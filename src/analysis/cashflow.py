@@ -15,6 +15,8 @@ def capm(Rf=0.0294, Rm=0.0979, beta=1.35):
         RF = Risk‐free rate.
         r_e = Expected return on stock (cost of equity).
     """
+    i = 4.5 #Vietnam current inflation
+    Rf += i
     r_e = Rf+beta*(Rm-Rf)
     return r_e
 
