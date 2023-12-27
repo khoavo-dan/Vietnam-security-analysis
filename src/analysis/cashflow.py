@@ -15,7 +15,7 @@ def capm(Rf=0.0294, Rm=0.0979, beta=1.35):
         RF = Risk‐free rate.
         r_e = Expected return on stock (cost of equity).
     """
-    i = 4.5 #Vietnam current inflation
+    i = 0.045 #Vietnam current inflation
     Rf += i
     r_e = Rf+beta*(Rm-Rf)
     return r_e
@@ -28,20 +28,19 @@ def growth_rate(metric, number_of_years=5):
 
     current_year = metric[-1]
     past_year = metric[-number_of_years]
-    # print(f'current year {current_year}\n past year {past_year}')
+
     if current_year*past_year>0:
         growth_rate = (current_year/past_year)**(1/(number_of_years-1))-1
     else:
         growth_rate = 0
-    # print(f'growth rate {growth_rate}')
+
     return growth_rate
 
 def discounted_cash_flow(cash_flow, growth_rate, discount_rate, share_outstanding):
     """
     Discounted cash flow
     """
-    # if growth_rate > discount_rate:
-    #     growth_rate = discount_rate
+
     discounted_cash_flow = [cash_flow *((1 + growth_rate) ** year)/ ((1 + discount_rate) ** year) for year, cash_flow in enumerate(cash_flow)]
     dcf = np.sum(discounted_cash_flow)/share_outstanding
     # print(cash_flow, growth_rate, discount_rate, share_outstanding)
@@ -94,11 +93,6 @@ def fcff(report_data, ticker, share_outstanding, price, tax_rate=0.2):
           + change_in_inventory\
           + change_in_accounts_payable\
           + change_in_prepaid_expenses
-
-    # print(net_profit)
-    # print(non_cash_charge)
-    # print(FCInv)
-    # print(WCInv)
 
     # Calculate fcff (cash flow)
     fcff = np.array(
