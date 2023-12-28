@@ -26,8 +26,8 @@ def growth_rate(metric, number_of_years=5):
     Growth rate
     """
 
-    current_year = metric[-1]
-    past_year = metric[-number_of_years]
+    current_year = metric[-1]               # The current year
+    past_year = metric[-number_of_years]    # The point in the past to compare
 
     if current_year*past_year>0:
         growth_rate = (current_year/past_year)**(1/(number_of_years-1))-1
@@ -76,9 +76,9 @@ def fcff(report_data, ticker, share_outstanding, price, tax_rate=0.2):
     revenue = report_data[f'{ticker}_incomestatement'].loc['revenue']
     net_profit = report_data[f'{ticker}_incomestatement'].loc['profit_attributable_to_shareholders_of_the_parent_company']
 
-    w_d = (debt / (debt + total_assets))[-1]                                      # Calculate debt ratio
+    w_d = (debt / (debt + total_assets))[-1]                                # Calculate debt ratio
     if w_d != 0:
-        r_d = np.mean(interest_expense[-3:])/np.mean(debt[-3:])  
+        r_d = np.mean(interest_expense[-3:])/np.mean(debt[-3:])             # Average interest rate in 3 years
     else:
         r_d = 0
     r_e = capm(Rf=0.0294, Rm=0.0979, beta=1)                                # Calculate discount rate using the Capital Asset Pricing Model (CAPM)
@@ -87,6 +87,8 @@ def fcff(report_data, ticker, share_outstanding, price, tax_rate=0.2):
     discount_rate = w_d*r_d*(1-t) + w_e*r_e                                 # Weighted average cost of capital
     print(f' r_d: {r_d*100:.2f}\n r_e: {r_e*100:.2f}\n w_d: {w_d*100:.2f}\n w_e: {w_e*100:.2f} \n Discount rate: {discount_rate*100:.2f}')
 
+
+    # Calculate Free float cashflow to firm
     non_cash_charge = depreciation + provision_expenses
     FCInv = cash_paid_for_purchase_of_fixed_assets_and_other_long_term_assets + cash_received_from_disposal_of_fixed_assets
     WCInv = change_in_accounts_receivable\
@@ -94,11 +96,9 @@ def fcff(report_data, ticker, share_outstanding, price, tax_rate=0.2):
           + change_in_accounts_payable\
           + change_in_prepaid_expenses
 
-    # Calculate fcff (cash flow)
     fcff = np.array(
         net_profit + non_cash_charge - interest_expense * (1 - tax_rate) + FCInv + WCInv
     )
-    # print(fcff)
 
     # Assumption: Cash flow is constant for 10 years
     cash_flows = np.ones(10) * np.average(fcff[-3:])

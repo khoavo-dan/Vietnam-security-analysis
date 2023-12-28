@@ -31,8 +31,5 @@ def dividend(symbol):
     df = json_normalize(data['listDividendPaymentHis']).drop(columns=['no', 'ticker'])
     dividend_yield = np.array(df['cashDividendPercentage'])
     d_yield = np.mean(dividend_yield[-1:])
-    # average_yield = np.mean(dividend_yield[-3:])
-    # d = dividend_yield[-1]*10000
-    # d = min(average_yield, previous_yield)
     return d_yield
 
