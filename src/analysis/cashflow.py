@@ -85,7 +85,7 @@ def fcff(report_data, ticker, share_outstanding, price, tax_rate=0.2):
     w_e = 1 - w_d
     t = 0.2                                                                 # tax rate
     discount_rate = w_d*r_d*(1-t) + w_e*r_e                                 # Weighted average cost of capital
-    print(f' r_d: {r_d*100:.2f}\n r_e: {r_e*100:.2f}\n w_d: {w_d*100:.2f}\n w_e: {w_e*100:.2f} \n Discount rate: {discount_rate*100:.2f}')
+    # print(f' r_d: {r_d*100:.2f}\n r_e: {r_e*100:.2f}\n w_d: {w_d*100:.2f}\n w_e: {w_e*100:.2f} \n Discount rate: {discount_rate*100:.2f}')
 
 
     # Calculate Free float cashflow to firm
@@ -98,7 +98,9 @@ def fcff(report_data, ticker, share_outstanding, price, tax_rate=0.2):
 
     fcff = np.array(
         net_profit + non_cash_charge - interest_expense * (1 - tax_rate) + FCInv + WCInv
-    )
+    ) 
+    # Interest extracted from P/L is negative, addition of a negative is (-)
+    # FCInv & WCInv from cashflow and 
 
     # Assumption: Cash flow is constant for 10 years
     cash_flows = np.ones(10) * np.average(fcff[-3:])
