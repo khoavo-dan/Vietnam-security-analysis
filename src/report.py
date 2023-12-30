@@ -100,11 +100,10 @@ def fetch_financial_statement(url, key):
         response = requests.get(url, headers=get_random_headers())
         df = pd.read_excel(BytesIO(response.content),
                            skiprows=7, engine='openpyxl').dropna()
-        # print(f'Successfully downloaded: {key}')
         return df
+
     except Exception as e:
         print(f'Error occurred while downloading {key}: {e}')
-    # time.sleep(7)
 
 # OPTION 1
 def fetch_batch(tickers, reports, frequency, save_file=False):
@@ -144,3 +143,70 @@ def fetch_batch(tickers, reports, frequency, save_file=False):
         local_storing.save_file(frequency, current_results)
 
     return current_results
+
+# OPTION 1
+def fetch_batch1(tickers, reports, frequency, save_file=False):
+    """Download multiple financial statements from SSI, number and types of report of each ticker are listed in reports
+
+    Args:
+        tickers (_type_): Company stock exchange symbol
+        reports (_type_): list of report type can include income statement, balance sheet, cash flow
+        frequency (_type_): yearly or quarterly
+        batch_size (int, optional): just a prevent of heat up the laptop Defaults to 10.
+
+    Returns:
+        _dict_: dictionary of financial statement with Q_ticker_reporttype as keys.
+    """
+    current_results = {}
+    urls, keys = url_prepare(tickers, reports, frequency)
+    total_tasks = len(urls)  # Total number of tasks to complete
+
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+        futures_map = {executor.submit(
+            fetch_financial_statement, url, key): key for url, key in zip(urls, keys)}
+
+
+        for future in concurrent.futures.as_completed(futures_map):
+            key = futures_map[future]
+            result = future.result()
+            if result is not None:
+                try:
+                    current_results[key] = result
+                except Exception as e:
+                    print(f'Error occurred while storing: {e}')
+
+    trans.translate_report_data(report_data=current_results)
+
+    merged_df = {}
+
+    for ticker in tickers:
+        bs = f'{ticker}_balancesheet'
+        pl = f'{ticker}_incomestatement'
+        cf = f'{ticker}_cashflow'
+        merged_df[ticker] = pd.concat([
+            current_results[bs],
+            current_results[pl],
+            current_results[cf]],
+            ignore_index=False
+            )
+
+    frames = merged_df.values()
+
+    # Concatenate the DataFrames while keeping the original indexes
+    concatenated_df = pd.concat(merged_df)
+
+    # Resetting the index to move the original indexes ('a', 'b', 'c') to columns
+    concatenated_df = concatenated_df.reset_index(level=1)
+
+    # Set a multi-level index with 'df' as the first level and the original index as the second level
+    concatenated_df = concatenated_df.set_index('level_1', append=True)
+
+    concatenated_df.index.names = ['symbol', 'index']  # Rename index levels
+
+
+
+    if save_file==True:
+        local_storing.save_file(frequency, current_results)
+
+    return concatenated_df

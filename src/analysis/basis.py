@@ -22,6 +22,13 @@ def share_outstanding(report_data, ticker):
 
     return shares_oustanding[-1]
 
+def share_outstanding_1(report_data):
+    basic_earnings_per_share = np.array(report_data.loc[(slice(None),'basic_earnings_per_share'),:])
+    profit_attributable = np.array(report_data.loc[(slice(None),'profit_attributable_to_shareholders_of_the_parent_company'),:])
+    shares_outstanding = profit_attributable/basic_earnings_per_share
+
+    return shares_outstanding
+
 def eps(report_data, ticker):
     basic_earnings_per_share = report_data[f'{ticker}_incomestatement'].loc['basic_earnings_per_share']
     return np.mean(basic_earnings_per_share[-1:])
