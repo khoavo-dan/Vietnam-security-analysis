@@ -46,11 +46,25 @@ def load_iboard(tickers):
 
 def dividend(tickers):
     data = asyncio.run(main(tickers,'https://apipubaws.tcbs.com.vn/tcanalysis/v1/company/{}/dividend-payment-histories?page=0&size=20'))
-    # df = []
-    # for i in np.array(df['data']):
-    #     try:
-    #         df.append(i[0])
-    #     except:
-    #         pass
-    # df = pd.DataFrame(df)
-    return data
+
+    current_year = datetime.now().year
+
+    for i in range(len(tickers)):
+        try:
+            d_his = pd.DataFrame(data.loc[1][0]) # Dividend history
+            annual_d = d_his.groupby('cashYear').sum('cashDividendPercentage') # Dividend history group by year
+            dividend = annual_d.drop('no', axis=1).loc[current_year-3:current_year]
+
+            # Create a range of years from 2019 to 2022
+            years_range = range(current_year-3, current_year)
+
+            # Reindex the DataFrame to include all years and fill missing values with zeros
+            dividend_filled = np.array(dividend.reindex(years_range, fill_value=0))
+            # print(dividend_filled)
+            df.append(dividend_filled)
+
+        except:
+            pass
+    df = np.array(df).reshape((len(tickers),3))
+
+    return df
