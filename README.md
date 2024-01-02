@@ -1,11 +1,12 @@
 # I. About this app:
 
-This project is my attempt to analyze listed companies trading on Vietnamese stock markets (HOSE, HNX, and UPCOM) using data from available APIs and simple financial models.
+This project is my attempt to analyze listed companies (except for banks) trading on Vietnamese stock markets (HOSE, HNX, and UPCOM) using data from available APIs and simple financial models.
 The current version evaluates the stock's earning potential in 3 main ways:
 
 - net-net working capital,
 - dividend discount model
 - and discounted cash flow.
+
   Additionally, the app offers default risk assessment and hints for in-depth analysis.
 
 # II. User manuals:
@@ -42,6 +43,8 @@ py main.py
 
 This product is a work in progress and might be strongly affected by personal views and my vague understanding of finance. Thus, there are MANY underlying assumptions as responses to the uncertainty.
 I built this for my private use in the screening step rather than an ALL-IN-ONE tool that can provide some kind of magical number.
+
+The current version is not applied for Banks and Financial institutions
 USE AS YOUR OWN RISK !!!
 
 # About me:
