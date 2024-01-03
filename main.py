@@ -15,8 +15,8 @@ tickers = input_ticker()
 reports = ['balancesheet', 'incomestatement', 'cashflow']
 
 # Fetch the financial statements
-annual_report_data = report.fetch_batch(tickers, reports, frequency='yearly', save_file=False)
-quarterly_report_data = report.fetch_batch(tickers, reports, frequency='quarterly', save_file=False)
+annual_report_data = report.fetch_batch(tickers, reports, frequency='yearly', save_file=True)
+quarterly_report_data = report.fetch_batch(tickers, reports, frequency='quarterly', save_file=True)
 print('All FS successfully loaded')
 
 data = get_data_from_api(tickers=tickers, url='https://apipubaws.tcbs.com.vn/stock-insight/v1/stock/second-tc-price?tickers={}')
@@ -66,17 +66,3 @@ for ticker in tickers:
 
     except Exception as e:
         print(f"Error processing {ticker}: {e}")
-        # You can handle the error for this specific ticker here if needed
-
-# r_e = 0.11
-# g = {ticker: (1-d[ticker][0]/eps[ticker])*roe[ticker] for ticker in tickers }
-# dividend_discount = {ticker: d[ticker][1]/(r_e-g[ticker]) for ticker in tickers}
-
-# ncav = np.array([working_capital.quarterly_ncav(quarterly_report_data, ticker, share_outstanding, price) for ticker in tickers])
-# dcf = np.array([cashflow.fcff(annual_report_data, ticker=ticker, share_outstanding=share_outstanding, price=price) for ticker in tickers])
-# d = np.array([dividend(ticker)*10000 for ticker in tickers])
-# eps = np.array([basis.earning_per_share(annual_report_data, ticker) for ticker in tickers])
-# roe = np.array([data[ticker]['data'][0]['roe'] for ticker in tickers])
-# r_e = 0.11
-# g = np.array([(1-d[ticker]/eps[ticker])*roe[ticker] for ticker in tickers ])
-

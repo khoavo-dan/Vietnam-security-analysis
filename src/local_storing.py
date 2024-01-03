@@ -10,10 +10,10 @@ def save_file(frequency, report_data):
         os.makedirs(report_folder_path)
 
      # Save the DataFrames as CSV files in the report folder
-    tickers = report_data.index.get_level_values(0).drop_duplicates()
-    for key in tickers:
-        file_path = os.path.join(report_folder_path, f'{key}.csv')
-        report_data.loc[(key),:].reset_index().to_csv(file_path, index=False)
+    # tickers = report_data.index.get_level_values(0).drop_duplicates()
+    # for key in tickers:
+    #     file_path = os.path.join(report_folder_path, f'{key}.csv')
+    #     report_data.loc[(key),:].reset_index().to_csv(file_path, index=False)
 
     # # Save the DataFrames as CSV files in the report folder
     # for key in report_data.keys():

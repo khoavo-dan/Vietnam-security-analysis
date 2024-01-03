@@ -139,8 +139,6 @@ def fetch_batch(tickers, reports, frequency, save_file=False):
 
     trans.translate_report_data(report_data=current_results)
 
-    if save_file==True:
-        local_storing.save_file(frequency, current_results)
 
     return current_results
 
@@ -207,6 +205,6 @@ def fetch_batch1(tickers, reports, frequency, save_file=False):
 
 
     if save_file==True:
-        local_storing.save_file(frequency, current_results)
+        local_storing.save_file(frequency, concatenated_df)
 
     return concatenated_df
