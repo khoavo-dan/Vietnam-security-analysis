@@ -41,7 +41,7 @@ for ticker in tickers:
         price[ticker] = float(basis.price_board(ticker).cp)
         pb = float(basis.price_board(ticker).pb)
         d = dividend(ticker)
-        eps = basis.eps(annual_report_data, ticker)
+        eps = basis.eps(annual_report_data, ticker, year=3)
         roe = data[ticker]['data'][0]['roe']
 
         # Calculate ncav
@@ -56,7 +56,7 @@ for ticker in tickers:
 
         if price[ticker]!=0:
             print(f'{sep_str}Earning yield (3 year):                        {eps/price[ticker]*100:>10,.2f} %')
-            print(f'{sep_str}Dividend yield (3 years):                      {d/pb*100:>10,.2f} %')
+            print(f'{sep_str}Dividend yield (3 years):                      {np.mean(d)/pb*100:>10,.2f} %')
             print(f'{sep_str}Net-net working capital per share (nnwc):      {ncav[ticker][1]:>10,.2f}       P/L margin: {(ncav[ticker][1]/price[ticker]-1)*100:>10,.2f} %')
             print(f'{sep_str}Discounted cashflow in the next 10 year:       {dcf[ticker]:>10,.2f}       P/L margin: {(dcf[ticker]/price[ticker]-1)*100:>10,.2f} %', end=end_str)
 
