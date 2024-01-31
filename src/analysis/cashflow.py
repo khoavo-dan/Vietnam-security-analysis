@@ -60,21 +60,21 @@ def fcff(report_data, ticker, share_outstanding, price, tax_rate=0.2):
     WCInv = Working capital expenditures
     """
 
-    debt = report_data[f'{ticker}_balancesheet'].loc['short-term_borrowings']\
-            + report_data[f'{ticker}_balancesheet'].loc['long-term_borrowings']\
-            + report_data[f'{ticker}_balancesheet'].loc['preferred_stock']
-    total_assets = report_data[f'{ticker}_balancesheet'].loc['total_assets']
-    interest_expense = report_data[f'{ticker}_cashflow'].loc['interest_expense']
-    depreciation = report_data[f'{ticker}_cashflow'].loc['depreciation']
-    provision_expenses = report_data[f'{ticker}_cashflow'].loc['provision_expenses']
-    cash_paid_for_purchase_of_fixed_assets_and_other_long_term_assets = report_data[f'{ticker}_cashflow'].loc['cash_paid_for_purchase_of_fixed_assets_and_other_long_term_assets']
-    cash_received_from_disposal_of_fixed_assets = report_data[f'{ticker}_cashflow'].loc['cash_received_from_disposal_of_fixed_assets']
-    change_in_accounts_receivable = report_data[f'{ticker}_cashflow'].loc['increase_decrease_in_accounts_receivable']
-    change_in_inventory = report_data[f'{ticker}_cashflow'].loc['increase_decrease_in_inventory']
-    change_in_accounts_payable = report_data[f'{ticker}_cashflow'].loc['increase_decrease_in_accounts_payable']
-    change_in_prepaid_expenses = report_data[f'{ticker}_cashflow'].loc['increase_decrease_in_prepaid_expenses']
-    revenue = report_data[f'{ticker}_incomestatement'].loc['revenue']
-    net_profit = report_data[f'{ticker}_incomestatement'].loc['profit_attributable_to_shareholders_of_the_parent_company']
+    debt = report_data[f'{ticker}_balancesheet'].loc['Short-term borrowings']\
+            + report_data[f'{ticker}_balancesheet'].loc['Long-term borrowings']\
+            + report_data[f'{ticker}_balancesheet'].loc['Preferred shares']
+    total_assets = report_data[f'{ticker}_balancesheet'].loc['TOTAL ASSETS']
+    interest_expense = report_data[f'{ticker}_cashflow'].loc['Interest expense']
+    depreciation = report_data[f'{ticker}_cashflow'].loc['Depreciation and amortisation']
+    provision_expenses = report_data[f'{ticker}_cashflow'].loc['Provisions']
+    cash_paid_for_purchase_of_fixed_assets_and_other_long_term_assets = report_data[f'{ticker}_cashflow'].loc['Purchases of fixed assets and other long term assets']
+    cash_received_from_disposal_of_fixed_assets = report_data[f'{ticker}_cashflow'].loc['Proceeds from disposal of fixed assets']
+    change_in_accounts_receivable = report_data[f'{ticker}_cashflow'].loc['(Increase)/decrease in receivables']
+    change_in_inventory = report_data[f'{ticker}_cashflow'].loc['(Increase)/decrease in inventories']
+    change_in_accounts_payable = report_data[f'{ticker}_cashflow'].loc['(Increase/(decrease) in payables']
+    change_in_prepaid_expenses = report_data[f'{ticker}_cashflow'].loc['(Increase)/decrease in prepaid expenses']
+    revenue = report_data[f'{ticker}_incomestatement'].loc['Sales']
+    net_profit = report_data[f'{ticker}_incomestatement'].loc['Attributable to parent company']
 
     w_d = (debt / (debt + total_assets))[-1]                                # Calculate debt ratio
     if w_d != 0:

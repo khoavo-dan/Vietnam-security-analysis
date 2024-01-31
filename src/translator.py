@@ -1,3 +1,15 @@
+def format_report(report_data):
+    for key, report in report_data.items():
+        try:
+            if 'ITEMS' in report.columns:
+                report.set_index(["ITEMS"], inplace=True)
+                # print(f'{key} successfully translated')
+            else:
+                report.set_index(['Unnamed: 0'], inplace=True)
+                # print(f'{key} successfully translated')
+        except KeyError as e:
+            print(e)
+
 def translate_report_data(report_data):
     definition = {
         'Thu nhập lãi và các khoản thu nhập tương tự': 'interest_income_and_similar_income',
@@ -220,6 +232,9 @@ def translate_report_data(report_data):
                 report['Unnamed: 0'] = translated_column
                 report.set_index(['Unnamed: 0'], inplace=True)
                 # print(f'{key} successfully translated')
+    
         except KeyError as e:
             print(e)
 
+
+    

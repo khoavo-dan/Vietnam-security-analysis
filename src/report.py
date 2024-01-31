@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
 from io import BytesIO
-from src import translator as trans
+from src.translator import format_report
 from src import local_storing
 # from bs4 import BeautifulSoup
 import random
@@ -80,7 +80,7 @@ def get_random_headers():
 
 
 def url_prepare(tickers, reports, frequency):
-    urls = ['https://fiin-fundamental.ssi.com.vn/FinancialStatement/Download{}?language=vi&OrganCode={}&Skip=0&Frequency={}'.format(report, ticker, frequency)
+    urls = ['https://fiin-fundamental.ssi.com.vn/FinancialStatement/Download{}?language=en&OrganCode={}&Skip=0&Frequency={}'.format(report, ticker, frequency)
             for ticker in tickers for report in reports]
     keys = [f'{ticker}_{report}' for ticker in tickers for report in reports]
     return urls, keys
@@ -137,7 +137,7 @@ def fetch_batch(tickers, reports, frequency, save_file=False):
                 except Exception as e:
                     print(f'Error occurred while storing: {e}')
 
-    trans.translate_report_data(report_data=current_results)
+    format_report(report_data=current_results)
 
 
     return current_results
@@ -174,7 +174,7 @@ def fetch_batch1(tickers, reports, frequency, save_file=False):
                 except Exception as e:
                     print(f'Error occurred while storing: {e}')
 
-    trans.translate_report_data(report_data=current_results)
+    format_report(report_data=current_results)
 
     merged_df = {}
 

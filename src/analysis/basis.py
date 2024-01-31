@@ -16,22 +16,22 @@ def price_board (symbol_ls):
     return df
 
 def share_outstanding(report_data, ticker):
-    basic_earnings_per_share = report_data[f'{ticker}_incomestatement'].loc['basic_earnings_per_share']
-    profit_attributable = report_data[f'{ticker}_incomestatement'].loc['profit_attributable_to_shareholders_of_the_parent_company']
-    shares_oustanding = profit_attributable/basic_earnings_per_share
+    eps = report_data[f'{ticker}_incomestatement'].loc['EPS']
+    attributable_net_profit = report_data[f'{ticker}_incomestatement'].loc['Attributable to parent company']
+    shares_outstanding = attributable_net_profit/eps
 
-    return shares_oustanding[-1]
+    return shares_outstanding[-1]
 
 def share_outstanding_1(report_data):
-    basic_earnings_per_share = np.array(report_data.loc[(slice(None),'basic_earnings_per_share'),:])
-    profit_attributable = np.array(report_data.loc[(slice(None),'profit_attributable_to_shareholders_of_the_parent_company'),:])
-    shares_outstanding = profit_attributable/basic_earnings_per_share
+    eps = np.array(report_data.loc[(slice(None),'EPS'),:])
+    attributable_net_profit = np.array(report_data.loc[(slice(None),'Attributable to parent company'),:])
+    shares_outstanding = attributable_net_profit/eps
 
     return shares_outstanding
 
 def eps(report_data, ticker, year):
-    basic_earnings_per_share = report_data[f'{ticker}_incomestatement'].loc['basic_earnings_per_share']
-    return np.mean(basic_earnings_per_share[-year:])
+    basicEPS = report_data[f'{ticker}_incomestatement'].loc['EPS']
+    return np.mean(basicEPS[-year:])
 
 def dividend(symbol):
     data = requests.get('https://apipubaws.tcbs.com.vn/tcanalysis/v1/company/{}/dividend-payment-histories?page=0&size=20'.format(symbol)).json()

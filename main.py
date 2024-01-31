@@ -45,7 +45,7 @@ for ticker in tickers:
         roe = data[ticker]['data'][0]['roe']
 
         # Calculate ncav
-        ncav[ticker] = working_capital.quarterly_ncav(quarterly_report_data, ticker, share_outstanding, price)
+        # ncav[ticker] = working_capital.quarterly_ncav(quarterly_report_data, ticker, share_outstanding, price)
 
         # Calculate dcf
         dcf[ticker] = cashflow.fcff(annual_report_data, ticker=ticker, share_outstanding=share_outstanding, price=price)
@@ -57,11 +57,11 @@ for ticker in tickers:
         if price[ticker]!=0:
             print(f'{sep_str}Earning yield (3 year):                        {eps/price[ticker]*100:>10,.2f} %')
             print(f'{sep_str}Dividend yield (3 years):                      {np.mean(d)/pb*100:>10,.2f} %')
-            print(f'{sep_str}Net-net working capital per share (nnwc):      {ncav[ticker][1]:>10,.2f}       P/L margin: {(ncav[ticker][1]/price[ticker]-1)*100:>10,.2f} %')
+            # print(f'{sep_str}Net-net working capital per share (nnwc):      {ncav[ticker][1]:>10,.2f}       P/L margin: {(ncav[ticker][1]/price[ticker]-1)*100:>10,.2f} %')
             print(f'{sep_str}Discounted cashflow in the next 10 year:       {dcf[ticker]:>10,.2f}       P/L margin: {(dcf[ticker]/price[ticker]-1)*100:>10,.2f} %', end=end_str)
 
         else:
-            print(f'{sep_str}Net-net working capital per share (nnwc):      {ncav[ticker][1]:>10,.2f}')
+            # print(f'{sep_str}Net-net working capital per share (nnwc):      {ncav[ticker][1]:>10,.2f}')
             print(f'{sep_str}Discounted cashflow in the next 10 year:       {dcf[ticker]:>10,.2f}', end=end_str)
 
     except Exception as e:
