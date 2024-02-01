@@ -9,8 +9,8 @@ import time
 import numpy as np
 
 # Initialize an empty list to store ticker symbols
-# tickers = input_ticker()
-tickers= ['DCM', 'DPM', 'VIP']
+tickers = input_ticker()
+# tickers= ['DCM', 'DPM', 'VIP']
 
 # Define the tickers and reports and the frequency
 reports = ['balancesheet', 'incomestatement', 'cashflow']
