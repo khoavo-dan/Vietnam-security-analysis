@@ -4,6 +4,7 @@ from io import BytesIO
 from src.translator import format_report
 from src import local_storing
 # from bs4 import BeautifulSoup
+import json
 import random
 import uuid
 import concurrent.futures
@@ -11,6 +12,16 @@ import time
 
 # Define the tickers and reports and the frequency
 reports = ['balancesheet', 'incomestatement', 'cashflow']
+
+def convert_organcode(tickers):
+    url = "https://fiin-core.ssi.com.vn/Master/GetListOrganization?language=vi"
+    content = requests.get(url, headers=get_random_headers()).content
+    json_data = json.load(BytesIO(content))
+    df = pd.DataFrame(json_data['items'])
+    dict = df[['organCode', 'ticker']].set_index('ticker').to_dict()['organCode']
+    converted_tickers = [dict[ticker] for ticker in tickers]
+    return converted_tickers
+
 def get_random_headers():
     ssi_headers = {
         'Accept': 'application/json',
@@ -81,7 +92,7 @@ def get_random_headers():
 
 def url_prepare(tickers, reports, frequency):
     urls = ['https://fiin-fundamental.ssi.com.vn/FinancialStatement/Download{}?language=en&OrganCode={}&Skip=0&Frequency={}'.format(report, ticker, frequency)
-            for ticker in tickers for report in reports]
+            for ticker in convert_organcode(tickers) for report in reports]
     keys = [f'{ticker}_{report}' for ticker in tickers for report in reports]
     return urls, keys
 
@@ -103,6 +114,7 @@ def fetch_financial_statement(url, key):
         return df
 
     except Exception as e:
+        # print(url)
         print(f'Error occurred while downloading {key}: {e}')
 
 # OPTION 1

@@ -10,7 +10,7 @@ import numpy as np
 
 # Initialize an empty list to store ticker symbols
 tickers = input_ticker()
-# tickers= ['DCM', 'DPM', 'VIP']
+# tickers= ['VIETJET', 'HANDI6']
 
 # Define the tickers and reports and the frequency
 reports = ['balancesheet', 'incomestatement', 'cashflow']
